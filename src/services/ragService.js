@@ -6,28 +6,27 @@ const rawApiUrl = import.meta.env.VITE_API_BASE_URL !== undefined
   : (import.meta.env.DEV ? 'http://127.0.0.1:8000' : '');
 const API_BASE_URL = rawApiUrl ? rawApiUrl.replace(/\/+$/, '') : '';
 
-
 // Embedded vector knowledge base for instant offline/browser fallback
 const LOCAL_KNOWLEDGE_BASE = [
   {
     id: "cbt_thought_reframing",
     category: "Cognitive Behavioral Therapy (CBT)",
-    symptoms: ["negative thoughts", "rumination", "hopelessness", "self-criticism", "guilt", "worthlessness"],
+    symptoms: ["negative thoughts", "rumination", "hopelessness", "self-criticism", "guilt", "worthlessness", "bad person", "failure"],
     title: "CBT Thought Reframing (The 3 Cs Technique)",
-    content: "When depression makes you feel hopeless or worthless, your mind often engages in cognitive distortions like All-or-Nothing thinking or Catastrophizing. Use the 3 Cs: 1. Catch it: Identify the negative automatic thought (e.g., 'I am a failure'). 2. Check it: Ask for objective evidence. 'Is this thought 100% true? What would I tell a close friend who said this?' 3. Change it: Replace it with a balanced, compassionate thought (e.g., 'I am struggling right now, but I have overcome tough times before, and I am taking small steps').",
+    content: "When depression makes you feel hopeless or worthless, your mind often engages in cognitive distortions like All-or-Nothing thinking, Catastrophizing, or Emotional Reasoning. Use the 3 Cs: 1. Catch it: Identify the negative automatic thought (e.g., 'I am a failure'). 2. Check it: Ask for objective evidence. 'Is this thought 100% true? What would I tell a close friend who said this?' 3. Change it: Replace it with a balanced, compassionate thought (e.g., 'I am struggling right now, but I have overcome tough times before, and I am taking small steps').",
     actionable_steps: [
       "Write down the negative thought verbatim.",
-      "List 3 pieces of evidence for and against this thought.",
-      "Formulate a neutral or balanced reframe."
+      "List 3 pieces of objective evidence for and against this thought.",
+      "Formulate a neutral or balanced reframe that is compassionate and factual."
     ],
     citation: "Beck, A. T. (1979). Cognitive Therapy of Depression. Guilford Press."
   },
   {
     id: "behavioral_activation",
     category: "Behavioral Activation",
-    symptoms: ["low energy", "fatigue", "loss of interest", "anhedonia", "procrastination", "apathy", "feeling stuck"],
+    symptoms: ["low energy", "fatigue", "loss of interest", "anhedonia", "procrastination", "apathy", "feeling stuck", "no motivation", "staying in bed"],
     title: "Behavioral Activation & Micro-Stepping",
-    content: "Depression creates a vicious cycle: low mood causes withdrawal and inactivity, which further lowers mood and energy. Behavioral Activation reverses this cycle by acting BEFORE feeling motivated. Start with 'Micro-Stepping': break any overwhelming task into a tiny 2-minute action (e.g., opening a window, sitting up, drinking a glass of water). Action generates momentum, which gradually restores dopamine and energy.",
+    content: "Depression creates a vicious cycle: low mood causes withdrawal and inactivity, which further lowers mood, self-worth, and dopamine. Behavioral Activation reverses this cycle by acting BEFORE feeling motivated. Start with 'Micro-Stepping': break any overwhelming task into a tiny 2-minute action (e.g., sitting up, opening a window, drinking a glass of water). Action generates momentum, which gradually restores energy.",
     actionable_steps: [
       "Select ONE small task that takes under 3 minutes.",
       "Commit to doing just 30 seconds of it without requiring perfection.",
@@ -38,34 +37,34 @@ const LOCAL_KNOWLEDGE_BASE = [
   {
     id: "sleep_hygiene_cbti",
     category: "Sleep & Circadian Alignment",
-    symptoms: ["insomnia", "oversleeping", "disrupted sleep", "nighttime anxiety", "waking up tired", "restlessness"],
+    symptoms: ["insomnia", "oversleeping", "disrupted sleep", "nighttime anxiety", "waking up tired", "restlessness", "can't sleep", "cant sleep"],
     title: "Circadian Rest & Sleep Hygiene (CBT-I)",
-    content: "Sleep disturbances directly worsen depressive symptoms and mood regulation. To reset your biological clock: 1. Get 10-15 minutes of natural daylight within 30 minutes of waking. 2. Keep a consistent wake-up time even on weekends. 3. If lying awake in bed for over 20 minutes with racing thoughts, get out of bed and do a low-light calming activity (reading, light stretching) until sleepy.",
+    content: "Sleep disturbances directly worsen depressive symptoms and emotional dysregulation. To reset your biological clock: 1. Get 10-15 minutes of natural daylight within 30 minutes of waking. 2. Keep a consistent wake-up time even on weekends. 3. Use the 20-Minute Rule: If lying awake in bed for over 20 minutes with racing thoughts, get out of bed and do a low-light calming activity (reading, light stretching) until sleepy.",
     actionable_steps: [
-      "Expose your eyes to sunlight shortly after waking up.",
+      "Expose your eyes to outdoor sunlight shortly after waking up.",
       "Avoid screens and bright blue light 60 minutes before bed.",
-      "Use your bed ONLY for sleep and rest, not for work or worrying."
+      "Use your bed ONLY for sleep and rest, not for work, studying, or worrying."
     ],
     citation: "Morin, C. M. (2006). Insomnia: Psychological Assessment and Management. Springer."
   },
   {
     id: "somatic_grounding",
     category: "Somatic & Vagus Nerve Regulation",
-    symptoms: ["anxiety", "panic", "overwhelmed", "chest tightness", "racing heartbeat", "brain fog"],
+    symptoms: ["anxiety", "panic", "overwhelmed", "chest tightness", "racing heartbeat", "brain fog", "derealization"],
     title: "Vagus Nerve Activation & 5-4-3-2-1 Sensory Grounding",
     content: "When depression combines with high anxiety or sensory overwhelm, your nervous system is trapped in fight-or-flight or freeze states. To activate the vagus nerve and parasympathetic system: Use the 5-4-3-2-1 grounding exercise. Acknowledge 5 things you see around you, 4 things you can touch, 3 things you hear, 2 things you smell, and 1 thing you taste. Pair this with 4-7-8 deep diaphragmatic breathing.",
     actionable_steps: [
-      "Inhale through nose for 4 seconds.",
-      "Hold breath gently for 7 seconds.",
-      "Exhale slowly through mouth making a whoosh sound for 8 seconds.",
-      "Repeat for 4 cycles."
+      "Inhale through your nose for 4 seconds.",
+      "Hold your breath gently for 7 seconds.",
+      "Exhale slowly through your mouth making a whoosh sound for 8 seconds.",
+      "Repeat for 4 complete cycles."
     ],
     citation: "Porges, S. W. (2011). The Polyvagal Theory. W. W. Norton & Company."
   },
   {
     id: "social_reconnection",
     category: "Interpersonal Therapy",
-    symptoms: ["isolation", "loneliness", "feeling burdensome", "withdrawing from friends", "feeling misunderstood"],
+    symptoms: ["isolation", "loneliness", "feeling burdensome", "withdrawing from friends", "feeling misunderstood", "alone", "no friends"],
     title: "Low-Pressure Social Re-engagement",
     content: "Depression tricks us into isolating because we feel like a burden or lack the energy for deep conversations. However, social connection is a primary buffer against depression. Use 'Low-Pressure Connection': text a simple emoji or 1-line check-in to a trusted person ('Thinking of you, low energy today but wanted to say hi'). You do not need to attend social events or explain your mental state.",
     actionable_steps: [
@@ -78,7 +77,7 @@ const LOCAL_KNOWLEDGE_BASE = [
   {
     id: "physical_movement_pacing",
     category: "Somatic Health & Nutrition",
-    symptoms: ["physical heaviness", "sluggishness", "body aches", "poor appetite", "emotional eating"],
+    symptoms: ["physical heaviness", "sluggishness", "body aches", "poor appetite", "emotional eating", "tired body", "exhaustion"],
     title: "Somatic Pacing & Gentle Physical Movement",
     content: "Depression manifests physically in the body as chronic muscular tension, systemic inflammation, and sluggishness. Studies show that 10 minutes of gentle walking or light stretching boosts brain-derived neurotrophic factor (BDNF) and endorphins as effectively as mild exercise. Hydrate with water and eat small, protein-rich snacks to keep blood sugar stable.",
     actionable_steps: [
@@ -89,9 +88,247 @@ const LOCAL_KNOWLEDGE_BASE = [
     citation: "Craft, L. L., & Perna, F. M. (2004). The Benefits of Exercise for the Clinically Depressed. Primary Care Companion J Clin Psychiatry."
   },
   {
+    id: "exam_academic_stress",
+    category: "Performance & Academic Psychology",
+    symptoms: ["exam stress", "academic pressure", "fear of failure", "test anxiety", "studying", "grades", "college stress", "school anxiety", "failed exam"],
+    title: "Academic & Exam Stress: The Box Pacing & Cognitive Unhooking Method",
+    content: "Exam and academic stress triggers acute sympathetic nervous system arousal, flooding the brain with cortisol and impairing the prefrontal cortex's working memory and focus. First, calm physiological panic with 3 minutes of Box Breathing (4s in, 4s hold, 4s out, 4s hold). Next, practice 'Cognitive Unhooking': separate your worth as a human being from an academic evaluation or score. Break revision into Pomodoro micro-blocks (25 min focus, 5 min physical pause) rather than marathon cramming sessions.",
+    actionable_steps: [
+      "Step away from books or screens for 5 minutes and drink a glass of water.",
+      "Do one 25-minute study sprint focusing on just ONE single sub-topic.",
+      "Repeat the grounding reality: 'My intellect, character, and future are not determined by a single exam.'",
+      "Write down your 3 worst-case academic fears, then write a calm, practical coping plan for each."
+    ],
+    citation: "Zeidner, M. (1998). Test Anxiety: The State of the Art. Plenum Press."
+  },
+  {
+    id: "breakup_relationship_grief",
+    category: "Relationship & Attachment Therapy",
+    symptoms: ["breakup", "heartbreak", "relationship ended", "dumped", "ex", "divorce", "lost love", "broken heart", "cheated", "lonely after breakup"],
+    title: "Heartbreak & Relationship Grief: Neurobiology & Emotional Regulation",
+    content: "Neuroimaging demonstrates that the pain of a romantic breakup activates the same anterior cingulate cortex regions as physical injury, while romantic withdrawal mimics chemical dependency detox. The intense grief, yearning, and physical chest ache you feel are biological reactions, not a sign that you will never love again. Establish strict digital boundaries (avoid checking their social media, which triggers dopamine spikes and crashes), journal your unvarnished emotions, and lean on supportive friendships.",
+    actionable_steps: [
+      "Mute, unfollow, or archive social media profiles of your ex to prevent neurochemical triggers.",
+      "Write an uncensored letter of grief and frustration—then keep or burn it safely without sending it.",
+      "Schedule a phone call or meet-up with a safe friend who listens without judgment.",
+      "Remind yourself: healing is not linear; waves of sadness will peak and gradually subside."
+    ],
+    citation: "Fisher, H. E. et al. (2010). Reward, Addiction, and Emotion Regulation Systems Associated with Romantic Breakup. Journal of Neurophysiology."
+  },
+  {
+    id: "workplace_burnout_imposter",
+    category: "Occupational Psychology",
+    symptoms: ["burnout", "work stress", "career exhaustion", "imposter syndrome", "overworked", "toxic workplace", "job dread", "unproductive", "boss"],
+    title: "Workplace Burnout & Imposter Phenomenon: Boundary Architecture",
+    content: "Burnout is characterized by emotional exhaustion, depersonalization/cynicism, and a diminished sense of personal accomplishment caused by prolonged systemic stress. Imposter feelings arise when internal perfectionism convinces you that you are a fraud. Shift from 'heroic overworking' to 'boundary architecture': set hard stop times for emails, decline non-essential tasks with polite assertiveness, and maintain an 'evidence jar' of genuine accomplishments and positive feedback.",
+    actionable_steps: [
+      "Set a non-negotiable end to your workday and physically step away from work devices.",
+      "List 3 factual contributions or projects you completed successfully recently.",
+      "Practice saying: 'I want to deliver quality, so I cannot take on this additional task right now.'",
+      "Take a full disconnected lunch break away from your desk."
+    ],
+    citation: "Maslach, C., & Leiter, M. P. (2016). Understanding the Burnout Experience. World Psychiatry."
+  },
+  {
+    id: "overthinking_rumination_loops",
+    category: "Cognitive Psychology",
+    symptoms: ["overthinking", "racing thoughts", "rumination", "can't stop thinking", "what if", "paralysis by analysis", "mind spinning", "obsessing"],
+    title: "Cognitive Rumination & Overthinking: The Worry Time Technique",
+    content: "Rumination is repetitive, unproductive focus on distress causes and consequences without taking problem-solving action. The brain mistakenly treats worry as protective preparation. Interrupt this loop with 'Scheduled Worry Time': allocate a specific 15-minute slot daily (e.g. 5:00 PM) exclusively to write down worries. When worries pop up outside this window, gently tell your brain: 'Noted; I will review this during my 5 PM worry window.' This re-trains prefrontal attentional control.",
+    actionable_steps: [
+      "Designate 15 minutes in late afternoon as your designated 'Worry Window'.",
+      "When an intrusive thought strikes, jot it down in a quick note and return to your present task.",
+      "Engage your hands in an active sensory task (washing dishes, drawing, folding clothes) to disrupt mental loops.",
+      "Ask yourself: 'Is this a problem I can take action on within the next 20 minutes?' If not, let it go."
+    ],
+    citation: "Nolen-Hoeksema, S. (2000). The Role of Rumination in Depressive Disorders. J Abnormal Psychol."
+  },
+  {
+    id: "procrastination_executive_dysfunction",
+    category: "Behavioral Self-Regulation",
+    symptoms: ["procrastinate", "procrastinating", "procrastination", "avoiding", "delaying", "lazy", "task paralysis", "can't focus", "distracted", "putting off", "executive dysfunction", "no motivation", "unmotivated"],
+    title: "Procrastination as Emotional Regulation: The 5-Minute Rule",
+    content: "Procrastination is not laziness or lack of discipline; it is an emotional coping mechanism to avoid negative emotions (anxiety, self-doubt, boredom, fear of failure) triggered by a task. When the brain anticipates discomfort, the amygdala initiates avoidance. The antidote is removing the emotional threat using 'The 5-Minute Rule': give yourself permission to stop after exactly 5 minutes of work. Overcoming initial task inertia shifts neurochemical momentum from avoidance to completion.",
+    actionable_steps: [
+      "Lower the barrier: set a timer for 5 minutes and do just the easiest first step.",
+      "Give yourself full permission to stop when the 5 minutes ring.",
+      "Clear visual clutter from your immediate workspace.",
+      "Practice self-forgiveness: research shows forgiving past procrastination directly reduces future delay."
+    ],
+    citation: "Sirois, F. M., & Pychyl, T. A. (2013). Procrastination and the Priority of Short-Term Mood Regulation. Soc Personal Psychol Compass."
+  },
+  {
+    id: "low_self_esteem_inner_critic",
+    category: "Mindful Self-Compassion (MSC)",
+    symptoms: ["low self esteem", "self hate", "inner critic", "not good enough", "feeling unlovable", "shame", "insecurity", "ugly", "useless", "hate myself"],
+    title: "Taming the Inner Critic: Mindful Self-Compassion (MSC)",
+    content: "The harsh inner critic is an internalized defense mechanism learned in earlier years to prevent social rejection. However, self-criticism stimulates the body's threat-defense system (cortisol release), deepening depression and despair. Dr. Kristin Neff's Mindful Self-Compassion offers 3 pillars: 1. Mindfulness (acknowledging suffering without exaggerating it), 2. Common Humanity (knowing struggle is part of being human, not personal inadequacy), and 3. Self-Kindness (treating oneself with the warmth you would extend to a beloved friend).",
+    actionable_steps: [
+      "Place a comforting hand over your chest or upper arm to stimulate soothing touch hormones.",
+      "Silently say: 'This is a moment of suffering. Suffering is part of life. May I be kind to myself.'",
+      "Ask: 'What words of comfort would I say to someone I love who felt this way?' Say them to yourself.",
+      "Identify one genuine quality you bring into the world, however small."
+    ],
+    citation: "Neff, K. D. (2003). Self-Compassion: An Alternative Conceptualization of a Healthy Attitude Toward Oneself. Self and Identity."
+  },
+  {
+    id: "anger_irritability_emotional_regulation",
+    category: "Emotion Regulation Therapy",
+    symptoms: ["anger", "irritable", "short temper", "rage", "frustrated", "snapping", "agitated", "resentment", "annoyed"],
+    title: "Depressive Irritability & Anger: The STOPP Protocol",
+    content: "In many people, depression presents not as tearful sadness, but as sudden irritability, anger, and a shortened fuse—termed 'irritable depression.' Unexpressed grief, chronic exhaustion, or boundary violations often simmer beneath the anger. Apply the STOPP protocol: S (Stop - pause before reacting), T (Take a breath - deep diaphragmatic exhalation), O (Observe - what feelings and sensations are firing right now?), P (Pull back - see the larger picture), P (Proceed with what is helpful and values-aligned).",
+    actionable_steps: [
+      "Step out of the room or situation for a 2-minute cooling period before speaking.",
+      "Wash your hands or splash cold water on your face to stimulate the mammalian dive reflex.",
+      "Notice where anger is held in the body (clenched jaw, tight fists) and consciously release those muscles.",
+      "Write out your frustration in raw words on paper, then safely discard it."
+    ],
+    citation: "Fava, M. (1998). Depression with Anger Attacks. Journal of Clinical Psychiatry."
+  },
+  {
+    id: "social_anxiety_fear_of_judgment",
+    category: "Cognitive Behavioral Therapy (CBT)",
+    symptoms: ["social anxiety", "fear of judgment", "embarrassed", "shyness", "public speaking", "crowds", "awkward", "fear of talking", "people staring"],
+    title: "Social Anxiety & Spotlight Effect: Attentional Externalization",
+    content: "Social anxiety is driven by the 'Spotlight Effect'—the cognitive illusion that everyone around us is scrutinizing our every word, facial expression, and movement. In reality, people are consumed by their own internal thoughts. To diminish social fear, switch from 'internal monitoring' (checking your heart rate, voice tone, posture) to 'attentional externalization' (focusing on the colors in the room, listening closely to the other person's stories, or noticing physical textures).",
+    actionable_steps: [
+      "Practice Attentional Externalization: pick 3 interesting details in your environment to focus on.",
+      "Remind yourself: 'Nobody is inspecting me as closely as my own anxiety is.'",
+      "Set a micro-goal: simply say 'Good morning' or make 2 seconds of warm eye contact.",
+      "Drop perfectionism: people connect with warmth and vulnerability, not flawless performance."
+    ],
+    citation: "Clark, D. M., & Wells, A. (1995). A Cognitive Model of Social Phobia. Social Phobia: Diagnosis, Assessment, and Treatment."
+  },
+  {
+    id: "grief_bereavement_coping_loss",
+    category: "Grief Counseling & Bereavement",
+    symptoms: ["grief", "loss", "bereavement", "death of loved one", "mourning", "missing someone", "passed away", "pet loss", "funeral"],
+    title: "Grief & Bereavement: The Dual-Process Model of Coping",
+    content: "Grief is not a linear set of stages, but rather an ongoing tide of waves that oscillate between 'Loss-Oriented' coping (feeling the pain, crying, reminiscing, yearning) and 'Restoration-Oriented' coping (attending to daily tasks, eating, small distractions, reorganizing life). Allow yourself permission to move freely between both sides without feeling guilty for taking a break from grief, nor ashamed of crying unexpectedly. There is no expiration date on loving and missing someone.",
+    actionable_steps: [
+      "Grant yourself permission to feel whatever emotion arises—sadness, numbness, or even laughter.",
+      "Engage in a small, comforting ritual in honor of what was lost (lighting a candle, writing a memory).",
+      "Eat simple nourishing foods and rest; grief takes a heavy physiological toll on the immune system.",
+      "Do not isolate completely—share memories with someone who honors your feelings."
+    ],
+    citation: "Stroebe, M., & Schut, H. (1999). The Dual Process Model of Coping with Bereavement. Death Studies."
+  },
+  {
+    id: "morning_depression_diurnal_variation",
+    category: "Circadian Biology & Chronotherapy",
+    symptoms: ["morning depression", "waking up sad", "dread in the morning", "heavy mornings", "hard to get out of bed", "cortisol awakening", "worst in morning"],
+    title: "Diurnal Mood Variation & Morning Dread: The Cortisol Reset",
+    content: "Many individuals with clinical depression experience severe 'diurnal mood variation'—feeling heavy despair, dread, and zero motivation upon waking, which gradually lightens toward the afternoon or evening. This is linked to the Cortisol Awakening Response (CAR) and circadian neurotransmitter dips. Knowing this is a biological phenomenon—not a character flaw—helps you detach from morning panic. Establish a gentle, frictionless morning runway: keep slippers and water by the bed, and expose yourself to bright natural light immediately.",
+    actionable_steps: [
+      "Place a glass of water by your bed at night and drink it immediately upon opening your eyes.",
+      "Open window blinds or turn on warm lights within 5 minutes of waking.",
+      "Do not check news or stressful work messages for the first 30 minutes of your day.",
+      "Remind yourself: 'My brain chemistry makes mornings artificially harder. This heaviness will soften as the day goes on.'"
+    ],
+    citation: "Wirz-Justice, A. (2008). Diurnal Variation of Depressive Symptoms. Dialogues in Clinical Neuroscience."
+  },
+  {
+    id: "boundary_setting_people_pleasing",
+    category: "Interpersonal & Assertiveness Training",
+    symptoms: ["boundaries", "people pleasing", "can't say no", "taken advantage of", "fawning", "exhausted from helping", "toxic friends", "guilt saying no"],
+    title: "Healthy Boundaries & Overcoming People-Pleasing: The Clear 'No'",
+    content: "People-pleasing is often a trauma-informed 'fawn' response: avoiding conflict by sacrificing personal needs to keep others calm and approved. Over time, chronic self-abandonment breeds resentment, deep fatigue, and depression. Boundaries are not walls to keep others out; they are clear property lines that show where you end and others begin. You can be deeply compassionate while simultaneously saying 'No' to protect your mental energy and health.",
+    actionable_steps: [
+      "Practice buy-time phrases: 'Let me check my schedule and get back to you later.'",
+      "Use the gentle but firm formula: 'I appreciate you thinking of me, but I am unable to commit to this right now.'",
+      "Recognize that other people's disappointment is theirs to process—it is not your moral emergency.",
+      "Identify one small request this week where you will politely decline."
+    ],
+    citation: "Cloud, H., & Townsend, J. (1992). Boundaries: When to Say Yes, How to Say No. Zondervan."
+  },
+  {
+    id: "panic_attacks_acute_anxiety",
+    category: "Anxiety Disorders & Somatics",
+    symptoms: ["panic attack", "heart racing", "hyperventilating", "feel like dying", "choking", "dizzy", "terror", "shaking", "panic attacks"],
+    title: "Acute Panic De-escalation & Interoceptive Reset",
+    content: "A panic attack is a false alarm triggered by the amygdala, flooding your body with adrenaline. Even though it feels terrifying and mimics a medical emergency, a panic attack is NOT dangerous and cannot cause heart failure or suffocation. Panic peaks within 10 minutes and naturally subsides as adrenaline metabolizes. Do not fight the sensations; allow them to wash through you like a wave while engaging in slow, extended diaphragmatic exhalations.",
+    actionable_steps: [
+      "Elongate your exhale: Inhale for 4 seconds, exhale slowly for 7 seconds through pursed lips.",
+      "Hold an ice cube or run cold water over your wrists to trigger physiological down-regulation.",
+      "Say to yourself: 'This is just adrenaline. It feels intense, but my body is safe and this will pass within minutes.'",
+      "Plant both feet flat on the floor and press down firmly into the ground."
+    ],
+    citation: "Barlow, D. H. (2002). Anxiety and Its Disorders: The Nature and Treatment of Anxiety and Panic. Guilford Press."
+  },
+  {
+    id: "emotional_numbness_anhedonia",
+    category: "Neuropsychology & Affective Science",
+    symptoms: ["numb", "empty", "no feelings", "dead inside", "can't cry", "apathy", "disconnected", "depersonalization", "feeling nothing"],
+    title: "Emotional Numbness & Anhedonia: Sensory Micro-Awakening",
+    content: "Emotional numbness and anhedonia (the inability to feel pleasure or sadness) are protective shutdown responses. When pain becomes overwhelming, the brain's defense mechanism suppresses all emotional valence to prevent collapse. Being numb does not mean you have lost your humanity forever; it means your nervous system is exhausted and shielding itself. Do not force yourself to feel deep joy; begin with tiny sensory micro-awakenings (tasting a hot peppermint tea, smelling ground coffee, listening to acoustic music).",
+    actionable_steps: [
+      "Engage one distinct physical sense: smell fresh coffee grounds, a lemon peel, or essential oil.",
+      "Touch a soft textured blanket or cold smooth stone and focus solely on the tactile sensation.",
+      "Acknowledge without judgment: 'My system is resting behind a protective shield right now. That is okay.'",
+      "Spend 5 minutes outside feeling the breeze or warmth on your skin."
+    ],
+    citation: "Treadway, M. T., & Zald, D. H. (2011). Reconsidering Anhedonia in Depression. Neurosci Biobehav Rev."
+  },
+  {
+    id: "mindfulness_act_cognitive_defusion",
+    category: "Acceptance & Commitment Therapy (ACT)",
+    symptoms: ["mindfulness", "acceptance", "act therapy", "meditation", "hooked by thoughts", "obsessive thoughts", "letting go", "mental peace"],
+    title: "Acceptance & Commitment (ACT): Cognitive Defusion (Leaves on a Stream)",
+    content: "In Acceptance and Commitment Therapy (ACT), psychological suffering is exacerbated by 'cognitive fusion'—treating thoughts as literal objective truths. Cognitive Defusion teaches you to step back and observe thoughts as transient mental events rather than commands. Use the 'Leaves on a Stream' visualization: imagine sitting beside a gently flowing river with autumn leaves floating past. When a painful thought appears ('I am unlovable', 'Nothing will ever work out'), place the thought on a leaf and watch it float downstream without grabbing or pushing it.",
+    actionable_steps: [
+      "Prepend your thoughts with: 'I am noticing the thought that...' to create psychological distance.",
+      "Try the 'Leaves on a Stream' exercise for 3 minutes.",
+      "Sing your recurring painful thought to the tune of 'Happy Birthday' to strip away its alarming emotional charge.",
+      "Refocus on your core values: 'What kind of person do I want to be in the next hour?'"
+    ],
+    citation: "Hayes, S. C. et al. (1999). Acceptance and Commitment Therapy. Guilford Press."
+  },
+  {
+    id: "therapy_and_professional_help",
+    category: "Clinical Resources & Mental Healthcare",
+    symptoms: ["therapy", "psychologist", "psychiatrist", "counselor", "medication", "antidepressants", "how does therapy work", "should I see doctor", "need help"],
+    title: "Navigating Professional Therapy & Mental Health Resources",
+    content: "Reaching out for professional help is an act of courage and self-advocacy, not weakness. Different therapy modalities address different needs: Cognitive Behavioral Therapy (CBT) focuses on thought patterns and behaviors; Acceptance and Commitment Therapy (ACT) emphasizes values and mindfulness; Psychodynamic therapy explores relational origins; and Dialectical Behavior Therapy (DBT) trains distress tolerance. If symptoms severely impact your sleep, appetite, or ability to function for more than two weeks, consulting a licensed therapist or psychiatrist is strongly recommended.",
+    actionable_steps: [
+      "Make a list of your 3 primary concerns to bring to a doctor or therapist.",
+      "Check if your workplace, school, or local health system provides an Employee/Student Assistance Program (EAP).",
+      "Remember that finding the right therapist is like finding the right shoe—it is normal to consult with a couple before finding a comfortable fit.",
+      "Write down any questions about therapy or medications to discuss with a licensed medical professional."
+    ],
+    citation: "American Psychological Association (APA). Understanding Psychotherapy and How It Works."
+  },
+  {
+    id: "loneliness_existential_dread",
+    category: "Existential Psychotherapy & Logotherapy",
+    symptoms: ["lonely", "no friends", "alone in the world", "meaning of life", "existential dread", "what is the point", "nobody understands me", "hopeless life"],
+    title: "Existential Loneliness & Meaning-Making: Logotherapy Insights",
+    content: "Viktor Frankl's Logotherapy posits that human beings are driven by a 'will to meaning.' During severe depression, life can feel devoid of purpose, accompanied by profound existential loneliness. When we cannot change external circumstances, we are challenged to change ourselves and find small micro-meanings in daily existence: in experiencing nature, in human connection, or in the attitude we take toward unavoidable suffering. You belong to the human community, even when depression makes you feel like an alien spectator.",
+    actionable_steps: [
+      "Identify ONE tiny source of meaning today: caring for a houseplant, reading a good poem, or being kind to a cashier.",
+      "Listen to a compassionate podcast or audiobook to hear empathetic human voices.",
+      "Write down: 'Even if the grand purpose feels distant, what small action honors my dignity right now?'",
+      "Step into a shared public space (park, library, coffee shop) simply to share quiet space with other human beings."
+    ],
+    citation: "Frankl, V. E. (1959). Man's Search for Meaning. Beacon Press."
+  },
+  {
+    id: "general_depression_overview",
+    category: "Psychoeducation & Clinical Overview",
+    symptoms: ["what is depression", "am I depressed", "depression vs sadness", "understanding depression", "clinical depression", "why am I sad"],
+    title: "Understanding Clinical Depression: Biology, Psychology & Recovery",
+    content: "Depression is a multi-factorial medical condition, not a personal failure, weakness of will, or simple 'bad mood.' Sadness is a normal, healthy emotional response to loss that passes; depression is a persistent state that flattens mood, drains physical energy, distorts cognition with hopeless narratives, and alters sleep and neurochemistry for weeks or months. Recovery is rarely instantaneous, but it is real and documented through a combination of psychotherapy, behavioral adjustments, social support, and medical interventions.",
+    actionable_steps: [
+      "Recognize depression as an illness you are managing, not your core identity.",
+      "Track your daily energy levels on a 1-5 scale to spot natural fluctuations.",
+      "Talk to a trusted friend, family member, or healthcare provider about what you are feeling.",
+      "Practice small acts of patience with yourself today."
+    ],
+    citation: "World Health Organization (WHO). Depression and Other Common Mental Disorders: Global Health Estimates."
+  },
+  {
     id: "crisis_safety_protocol",
     category: "Crisis Intervention & Emergency Safety",
-    symptoms: ["suicidal thoughts", "self harm", "wanting to give up", "severe crisis", "cannot stay safe"],
+    symptoms: ["suicidal thoughts", "self harm", "wanting to give up", "severe crisis", "cannot stay safe", "kill myself", "end my life"],
     title: "Emergency Safety Protocol & Immediate Crisis Support",
     content: "If you are having thoughts of suicide, self-harm, or feel you cannot keep yourself safe, please reach out for immediate professional crisis support right now. You are NOT alone, and there is help available 24/7. National hotlines are free, confidential, and compassionate. If in immediate physical danger, call your local emergency services (911 / 112 / 14416) or go to the nearest emergency room.",
     actionable_steps: [
@@ -108,8 +345,62 @@ const LOCAL_KNOWLEDGE_BASE = [
 const CRISIS_KEYWORDS = [
   "suicide", "kill my", "kill myself", "end my life", "want to die",
   "self harm", "cutting", "dont want to live", "can't go on", "cant go on",
-  "better off dead", "disappear forever", "end it all"
+  "better off dead", "disappear forever", "end it all", "hang myself", "take all my pills"
 ];
+
+const GREETING_KEYWORDS = [
+  "hi", "hello", "hey", "greetings", "good morning", "good evening", "good afternoon", "namaste", "sup", "howdy", "hi there", "hello there"
+];
+
+const GRATITUDE_KEYWORDS = [
+  "thank you", "thanks", "thank u", "thx", "appreciate it", "grateful", "that helped"
+];
+
+const IDENTITY_KEYWORDS = [
+  "who are you", "what are you", "what can you do", "what is this", "how do you work", "are you a bot", "are you ai"
+];
+
+const SYMPTOM_TAXONOMY = {
+  exam_academic: ["exam", "test", "studying", "study", "academic", "grades", "college", "school", "university", "syllabus", "passed", "failed"],
+  breakup_relationship: ["breakup", "broke up", "heartbreak", "heartbroken", "ex", "divorce", "relationship", "partner", "cheated", "dating", "dumped"],
+  burnout_work: ["burnout", "work", "job", "career", "boss", "office", "overworked", "imposter", "deadline"],
+  overthinking: ["overthinking", "overthink", "racing thoughts", "what if", "mind spinning", "obsessing", "ruminating", "rumination"],
+  procrastination: ["procrastinate", "procrastinating", "procrastination", "avoiding", "delaying", "lazy", "task paralysis", "no motivation", "unmotivated", "can't focus"],
+  low_self_esteem: ["hate myself", "worthless", "not good enough", "failure", "insecure", "ugly", "shame", "guilt", "inner critic"],
+  anger_irritability: ["angry", "anger", "rage", "frustrated", "short temper", "irritated", "snapping", "agitated"],
+  panic_anxiety: ["panic attack", "panic", "chest tightness", "can't breathe", "hyperventilating", "heart racing", "trembling"],
+  social_anxiety: ["social anxiety", "crowds", "shyness", "talking to people", "embarrassed", "people judging", "public speaking"],
+  morning_depression: ["morning", "waking up", "wake up sad", "dread waking up", "morning depression", "cortisol"],
+  boundaries: ["say no", "people pleasing", "pleasing everyone", "boundaries", "toxic friend"],
+  grief_loss: ["grief", "loss", "mourning", "death", "passed away", "lost my", "bereavement"],
+  numbness: ["numb", "empty", "no emotions", "feel nothing", "can't feel", "dead inside", "anhedonia"],
+  insomnia: ["insomnia", "sleepless", "can't sleep", "cant sleep", "wake up early", "nightmares"],
+  fatigue: ["fatigue", "tired", "exhausted", "low energy", "no energy", "sluggish", "heavy body"],
+  isolation: ["lonely", "alone", "isolated", "withdrawing", "nobody cares", "burdensome", "no friends"],
+  therapy_guidance: ["therapy", "therapist", "psychologist", "psychiatrist", "medication", "antidepressant", "counselor"],
+  general_depression: ["what is depression", "am i depressed", "clinical depression", "depression vs sadness"]
+};
+
+const CATEGORY_DOC_TARGETS = {
+  exam_academic: "exam_academic_stress",
+  breakup_relationship: "breakup_relationship_grief",
+  burnout_work: "workplace_burnout_imposter",
+  overthinking: "overthinking_rumination_loops",
+  procrastination: "procrastination_executive_dysfunction",
+  low_self_esteem: "low_self_esteem_inner_critic",
+  anger_irritability: "anger_irritability_emotional_regulation",
+  panic_anxiety: "panic_attacks_acute_anxiety",
+  social_anxiety: "social_anxiety_fear_of_judgment",
+  morning_depression: "morning_depression_diurnal_variation",
+  boundaries: "boundary_setting_people_pleasing",
+  grief_loss: "grief_bereavement_coping_loss",
+  numbness: "emotional_numbness_anhedonia",
+  insomnia: "sleep_hygiene_cbti",
+  fatigue: "behavioral_activation",
+  isolation: "social_reconnection",
+  therapy_guidance: "therapy_and_professional_help",
+  general_depression: "general_depression_overview"
+};
 
 // Helper: Tokenize text
 function tokenize(text) {
@@ -121,7 +412,7 @@ function tokenize(text) {
 
 // In-Browser RAG Engine
 function localRAGQuery(queryText, selectedSymptoms = []) {
-  const queryLower = queryText.toLowerCase();
+  const queryLower = queryText.toLowerCase().trim();
   
   // 1. Crisis Check
   const isCrisis = CRISIS_KEYWORDS.some(kw => queryLower.includes(kw));
@@ -140,21 +431,101 @@ function localRAGQuery(queryText, selectedSymptoms = []) {
     };
   }
 
-  // 2. Extract Symptoms
-  const queryTokens = tokenize(queryText);
-  const detectedSymptoms = [...selectedSymptoms];
-  
-  LOCAL_KNOWLEDGE_BASE.forEach(doc => {
-    doc.symptoms.forEach(sym => {
-      if (queryLower.includes(sym.toLowerCase()) && !detectedSymptoms.includes(sym)) {
-        detectedSymptoms.push(sym);
+  // 2. Greeting Check
+  const isGreeting = GREETING_KEYWORDS.some(g => queryLower === g || queryLower.startsWith(g + " "));
+  if (isGreeting) {
+    return {
+      response: (
+        "👋 **Hello and welcome! I am MindHaven**, your compassionate mental health and depression coping companion.\n\n" +
+        "Whether you're feeling overwhelmed, wrestling with negative thoughts, struggling to get out of bed, or facing specific challenges like exam stress, work burnout, or relationship pain—I am here to listen and help.\n\n" +
+        "**How can I support you today?** You can try asking:\n" +
+        "- *'I'm feeling anxious and overwhelmed with exam/study pressure'*\n" +
+        "- *'How can I stop overthinking and racing thoughts at night?'*\n" +
+        "- *'I have zero energy or motivation today, what should I do?'*\n" +
+        "- *'How do I deal with heartbreak and a painful breakup?'*\n" +
+        "- *'I constantly feel not good enough and criticize myself'*\n\n" +
+        "Or simply share in your own words what you are experiencing right now."
+      ),
+      is_crisis: false,
+      detected_symptoms: ["greeting"],
+      retrieved_sources: [{
+        title: "Psychoeducation & MindHaven Assistant Guide",
+        category: "Interactive Support",
+        relevance_score: 1.0,
+        citation: "MindHaven Clinical Coping System"
+      }]
+    };
+  }
+
+  // 3. Gratitude Check
+  const isGratitude = GRATITUDE_KEYWORDS.some(g => queryLower.includes(g));
+  if (isGratitude) {
+    return {
+      response: (
+        "💙 **You are so very welcome!**\n\n" +
+        "Taking intentional time to acknowledge your emotions and explore evidence-based coping tools is a courageous act of self-care.\n\n" +
+        "Remember that mental well-being is not a race—progress comes through gentle, tiny micro-steps. If you ever feel heavy again, remember I am right here anytime you need to talk or reset."
+      ),
+      is_crisis: false,
+      detected_symptoms: ["gratitude"],
+      retrieved_sources: [{
+        title: "Positive Reinforcement & Mindful Growth",
+        category: "Supportive Therapy",
+        relevance_score: 1.0,
+        citation: "MindHaven Self-Care Framework"
+      }]
+    };
+  }
+
+  // 4. Identity Check
+  const isIdentity = IDENTITY_KEYWORDS.some(i => queryLower.includes(i));
+  if (isIdentity) {
+    return {
+      response: (
+        "🧠 **I am MindHaven**, an evidence-based mental health support assistant powered by Retrieval-Augmented Generation (RAG).\n\n" +
+        "### What I Do:\n" +
+        "1. **Clinical Coping Strategies**: I draw from peer-reviewed psychological frameworks—including Cognitive Behavioral Therapy (CBT), Behavioral Activation, Acceptance & Commitment Therapy (ACT), and CBT for Insomnia (CBT-I).\n" +
+        "2. **Specific Life Solutions**: I offer targeted guidance for academic stress, relationship grief, career burnout, chronic overthinking, procrastination, inner self-criticism, and loneliness.\n" +
+        "3. **Somatic & Nervous System Reset**: I guide you through vagus nerve regulation, 5-4-3-2-1 sensory grounding, and 4-7-8 deep breathing.\n" +
+        "4. **Emergency Safety**: Instant 24/7 hotline directory and safety protocols whenever you need urgent human care.\n\n" +
+        "*What would you like guidance on today?*"
+      ),
+      is_crisis: false,
+      detected_symptoms: ["identity"],
+      retrieved_sources: [{
+        title: "System Architecture & Clinical RAG Taxonomy",
+        category: "Psychoeducation",
+        relevance_score: 1.0,
+        citation: "Beck Institute & APA Evidence-Based Practice"
+      }]
+    };
+  }
+
+  // 5. Detect Symptoms
+  const detectedSymptoms = [];
+  const targetDocIds = new Set();
+  Object.entries(SYMPTOM_TAXONOMY).forEach(([catKey, keywords]) => {
+    for (const kw of keywords) {
+      if (queryLower.includes(kw)) {
+        detectedSymptoms.push(catKey.replace('_', ' '));
+        if (CATEGORY_DOC_TARGETS[catKey]) {
+          targetDocIds.add(CATEGORY_DOC_TARGETS[catKey]);
+        }
+        break;
       }
-    });
+    }
   });
 
-  // 3. TF-IDF & Keyword Vector Scoring
+  // 6. TF-IDF & Taxonomy Retrieval Scoring
+  const queryTokens = tokenize(queryText);
   const scoredDocs = LOCAL_KNOWLEDGE_BASE.map(doc => {
     let score = 0.0;
+
+    // Strong category target boost
+    if (targetDocIds.has(doc.id)) {
+      score += 0.85;
+    }
+
     const docText = `${doc.title} ${doc.category} ${doc.symptoms.join(' ')} ${doc.content}`.toLowerCase();
     const docTokens = tokenize(docText);
 
@@ -164,7 +535,7 @@ function localRAGQuery(queryText, selectedSymptoms = []) {
 
     doc.symptoms.forEach(sym => {
       if (queryLower.includes(sym.toLowerCase()) || selectedSymptoms.includes(sym)) {
-        score += 0.4;
+        score += 0.35;
       }
     });
 
@@ -175,35 +546,51 @@ function localRAGQuery(queryText, selectedSymptoms = []) {
   const topResults = scoredDocs.slice(0, 2);
   const topDoc = topResults[0]?.doc || LOCAL_KNOWLEDGE_BASE[0];
 
-  // 4. Construct RAG Response
-  let greeting = "I understand you are experiencing difficulty right now.";
-  if (detectedSymptoms.length > 0) {
-    greeting = `I hear that you are dealing with symptoms related to **${detectedSymptoms.slice(0, 3).join(', ')}**. Thank you for sharing how you feel.`;
+  // 7. Dynamic Conversational Opening
+  let intro = "";
+  if (queryLower.includes("exam") || queryLower.includes("study") || queryLower.includes("grade")) {
+    intro = "I hear how demanding and high-pressure academic challenges can feel. When exams or deadlines loom, your brain can perceive them as an existential threat, causing freeze or panic states. Let's look at how to unpack this and regain your calm clarity.";
+  } else if (queryLower.includes("breakup") || queryLower.includes("ex") || queryLower.includes("heartbreak") || queryLower.includes("partner")) {
+    intro = "Going through a breakup or relationship loss is one of the most painful experiences a person can navigate. Neurologically, your system is processing both emotional grief and physical withdrawal. Please treat yourself with immense gentleness right now.";
+  } else if (queryLower.includes("work") || queryLower.includes("burnout") || queryLower.includes("job") || queryLower.includes("boss")) {
+    intro = "Workplace exhaustion and burnout occur when relentless demands collide with insufficient emotional recovery. Feeling depleted or doubting yourself doesn't mean you are incapable—it means your nervous system is sounding an alarm for boundaries.";
+  } else if (queryLower.includes("overthinking") || queryLower.includes("racing thoughts") || queryLower.includes("what if")) {
+    intro = "It is exhausting when your mind is spinning with endless 'what ifs' and loops of worry. Overthinking tricks you into feeling like you are preparing, but in reality it traps your energy in mental paralysis. Let's break the cycle.";
+  } else if (queryLower.includes("procrastinat") || queryLower.includes("lazy") || queryLower.includes("can't focus")) {
+    intro = "First, take a deep breath and forgive yourself: procrastination is not laziness, it is an emotional coping mechanism to avoid anxiety or fear of failure. When we lower the threat level, focus returns naturally.";
+  } else if (queryLower.includes("sleep") || queryLower.includes("insomnia") || queryLower.includes("night")) {
+    intro = "Tossing and turning at night with an active mind is deeply frustrating and physically draining. Sleep disruptions and low mood reinforce each other, so breaking this loop with structured circadian habits is our priority.";
+  } else if (detectedSymptoms.length > 0) {
+    intro = `I hear you, and I understand you are dealing with challenging feelings related to **${detectedSymptoms.slice(0, 3).join(', ')}**. Thank you for opening up—let's break down practical, evidence-based ways to address this.`;
+  } else {
+    intro = "Thank you for sharing your thoughts with me. Whatever you are navigating right now, you do not have to figure it all out at once. Here is a grounded psychological perspective to help guide you through this.";
   }
 
-  let responseText = `${greeting}\n\n`;
-  responseText += `### 💡 Evidence-Based Guidance: ${topDoc.title}\n`;
+  // 8. Construct Response
+  let responseText = `${intro}\n\n`;
+  responseText += `### 💡 Evidence-Based Solution: ${topDoc.title}\n`;
+  responseText += `**Clinical Approach:** *${topDoc.category}*\n\n`;
   responseText += `${topDoc.content}\n\n`;
 
   if (topDoc.actionable_steps) {
-    responseText += `**🌱 Small Action Steps You Can Try Today:**\n`;
-    topDoc.actionable_steps.forEach(step => {
-      responseText += `• ${step}\n`;
+    responseText += `**🌱 Concrete Steps You Can Take Right Now:**\n`;
+    topDoc.actionable_steps.forEach((step, idx) => {
+      responseText += `${idx + 1}. ${step}\n`;
     });
   }
 
-  if (topResults.length > 1 && topResults[1].score > 0.3) {
+  if (topResults.length > 1 && topResults[1].score > 0.4) {
     const secondDoc = topResults[1].doc;
-    responseText += `\n---\n### 🔍 Additional Coping Insight: ${secondDoc.title}\n`;
+    responseText += `\n---\n### 🔍 Complementary Perspective: ${secondDoc.title}\n`;
     responseText += `${secondDoc.content}\n`;
   }
 
-  responseText += `\n\n*Remember: Progress in overcoming depression comes from gentle, small steps. If you feel overwhelmed, take a minute to use the Breathing Circle or Emergency SOS tools.*`;
+  responseText += `\n\n**💬 A Reflective Question for You:**\n*Which single small step from above feels most manageable to attempt in the next 10 minutes?* Feel free to reply with how you're feeling, or ask for more specific guidance!`;
 
   return {
     response: responseText,
     is_crisis: false,
-    detected_symptoms: detectedSymptoms,
+    detected_symptoms: detectedSymptoms.length > 0 ? detectedSymptoms : ["support"],
     retrieved_sources: topResults.map(r => ({
       title: r.doc.title,
       category: r.doc.category,
