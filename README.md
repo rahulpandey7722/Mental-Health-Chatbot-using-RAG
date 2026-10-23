@@ -1,6 +1,9 @@
 # MindHaven - RAG Mental Health & Depression Support Chatbot
 
 **MindHaven** is an evidence-based, RAG-powered (Retrieval-Augmented Generation) Mental Health Chatbot that takes user depression symptoms as input, retrieves clinical psychological coping strategies (such as CBT, Behavioral Activation, and Sleep Hygiene), and provides actionable guidance. It is integrated with 24/7 emergency crisis hotlines and immediate safety grounding tools.
+---
+## LIVE DEMO
+Visit: https://mindhaven-mental-health-chatbot.onrender.com
 
 ---
 
