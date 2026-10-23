@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: mindhaven-mental-health-chatbot
+    runtime: docker
+    plan: free
+    region: oregon
+    healthCheckPath: /health
+    envVars:
+      - key: PORT
+        value: 8000
+      - key: ALLOWED_ORIGINS
+        value: "*"

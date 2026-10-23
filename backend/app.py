@@ -1,9 +1,18 @@
 import os
+import sys
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from typing import List, Optional
 import uvicorn
+
+# Ensure the backend directory is in sys.path regardless of execution cwd
+current_dir = os.path.dirname(os.path.abspath(__file__))
+if current_dir not in sys.path:
+    sys.path.insert(0, current_dir)
+
 from rag_engine import RAGEngine
 
 app = FastAPI(
@@ -12,17 +21,20 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# Enable CORS for frontend integration
+# Enable CORS for frontend integration (configurable via ALLOWED_ORIGINS env var)
+raw_origins = os.environ.get("ALLOWED_ORIGINS", "*")
+allowed_origins = [o.strip() for o in raw_origins.split(",") if o.strip()] if raw_origins != "*" else ["*"]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
+    allow_origins=allowed_origins,
+    allow_credentials=True if allowed_origins != ["*"] else False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 # Initialize RAG Engine
-kb_path = os.path.join(os.path.dirname(__file__), "knowledge_base.json")
+kb_path = os.path.join(current_dir, "knowledge_base.json")
 rag_engine = RAGEngine(kb_path)
 
 # Data Models
@@ -79,8 +91,24 @@ EMERGENCY_CONTACTS = [
     }
 ]
 
+@app.get("/health")
+@app.get("/api/health")
+def health_check():
+    return {
+        "status": "healthy",
+        "service": "MindHaven RAG API",
+        "version": "1.0.0"
+    }
+
+# Path to built frontend static files (if present in production / unified deployment)
+dist_dir = os.path.abspath(os.path.join(current_dir, "..", "dist"))
+
 @app.get("/")
 def read_root():
+    if os.path.isdir(dist_dir):
+        index_file = os.path.join(dist_dir, "index.html")
+        if os.path.isfile(index_file):
+            return FileResponse(index_file)
     return {
         "message": "Mental Health RAG Chatbot API is operational.",
         "status": "online",
@@ -123,5 +151,28 @@ def get_knowledge_items():
         "items": rag_engine.documents
     }
 
+# Mount static assets and handle SPA routing if frontend dist exists
+if os.path.isdir(dist_dir):
+    assets_dir = os.path.join(dist_dir, "assets")
+    if os.path.isdir(assets_dir):
+        app.mount("/assets", StaticFiles(directory=assets_dir), name="assets")
+
+    @app.get("/{full_path:path}")
+    async def serve_spa_route(full_path: str):
+        if full_path.startswith("api/") or full_path == "api" or full_path.startswith("health"):
+            raise HTTPException(status_code=404, detail="Endpoint not found")
+        
+        file_path = os.path.join(dist_dir, full_path)
+        if full_path and os.path.isfile(file_path):
+            return FileResponse(file_path)
+        index_file = os.path.join(dist_dir, "index.html")
+        if os.path.isfile(index_file):
+            return FileResponse(index_file)
+        raise HTTPException(status_code=404, detail="Page not found")
+
 if __name__ == "__main__":
-    uvicorn.run("app:app", host="127.0.0.1", port=8000, reload=True)
+    port = int(os.environ.get("PORT", 8000))
+    host = os.environ.get("HOST", "0.0.0.0")
+    reload = os.environ.get("RELOAD", "false").lower() in ("true", "1")
+    uvicorn.run("app:app", host=host, port=port, reload=reload)
+

@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "start": "python backend/app.py",
+    "prod": "npm run build && python backend/app.py",
     "start:backend": "python backend/app.py",
     "preview": "vite preview"
   },

@@ -1,6 +1,11 @@
 // RAG Client Service with automatic fallback to client-side vector engine
 
-const API_BASE_URL = 'http://127.0.0.1:8000';
+// Dynamic API URL: uses VITE_API_BASE_URL if configured, otherwise falls back to localhost in dev, or relative origin in production
+const rawApiUrl = import.meta.env.VITE_API_BASE_URL !== undefined
+  ? import.meta.env.VITE_API_BASE_URL
+  : (import.meta.env.DEV ? 'http://127.0.0.1:8000' : '');
+const API_BASE_URL = rawApiUrl ? rawApiUrl.replace(/\/+$/, '') : '';
+
 
 // Embedded vector knowledge base for instant offline/browser fallback
 const LOCAL_KNOWLEDGE_BASE = [

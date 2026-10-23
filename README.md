@@ -98,12 +98,27 @@ npm run dev
 
 ## 📡 REST API Documentation
 
+- `GET /health`: Health check endpoint for container orchestrators and cloud platforms.
 - `POST /api/chat`: Send user query & symptoms; returns context-augmented response, crisis status, and retrieved sources.
 - `POST /api/symptoms/assess`: Assess symptoms list and return tailored coping strategy.
 - `GET /api/emergency`: Retrieve crisis hotlines by region.
 - `GET /api/knowledge`: Query all indexed RAG knowledge base items.
 
 ---
+
+## 🚀 Deployment
+
+MindHaven is production-ready with turnkey configuration for all major platforms:
+
+- **Docker / Cloud Run / AWS**: Preconfigured multi-stage [`Dockerfile`](Dockerfile) and [`docker-compose.yml`](docker-compose.yml) (`docker compose up --build`).
+- **Render**: One-click blueprint with [`render.yaml`](render.yaml).
+- **Vercel / Netlify**: SPA routing presets via [`vercel.json`](vercel.json) and [`netlify.toml`](netlify.toml).
+- **Heroku / Railway**: Supported via [`Procfile`](Procfile) and automatic Docker detection.
+
+For step-by-step guides for each platform, see [**DEPLOYMENT.md**](DEPLOYMENT.md).
+
+---
+
 
 ## ⚠️ Medical Disclaimer
 

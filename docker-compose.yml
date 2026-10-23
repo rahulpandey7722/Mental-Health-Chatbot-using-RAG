@@ -1,0 +1,19 @@
+services:
+  mindhaven:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: mindhaven:latest
+    container_name: mindhaven-app
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - PORT=8000
+      - HOST=0.0.0.0
+      - ALLOWED_ORIGINS=*
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
